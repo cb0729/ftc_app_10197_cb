@@ -2,7 +2,7 @@ package com.qualcomm.ftcrobotcontroller.opmodes;
 
 //------------------------------------------------------------------------------
 //
-// PushBotManual
+// PushBotManual1
 //
 /**
  * Provide a basic manual operational mode that uses the left and right
