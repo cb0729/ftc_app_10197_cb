@@ -104,6 +104,33 @@ public class PushBotHardware extends OpMode
             v_motor_right_drive = null;
         }
 
+        try
+        {
+            // v_motor_left_drive_front = hardwareMap.dcMotor.get ("left_drive_front");
+            v_motor_arm = hardwareMap.dcMotor.get ("left_drive_front");
+
+        }
+        catch (Exception p_exeception)
+        {
+            m_warning_message ("left_drive_front");
+            DbgLog.msg (p_exeception.getLocalizedMessage ());
+
+            v_motor_left_drive_front = null;
+        }
+
+        try
+        {
+            //v_motor_right_drive_front = hardwareMap.dcMotor.get ("right_drive_front");
+            //v_motor_right_drive_front.setDirection (DcMotor.Direction.REVERSE);
+            v_motor_drum = hardwareMap.dcMotor.get ("right_drive_front");
+        }
+        catch (Exception p_exeception)
+        {
+            m_warning_message ("right_drive_front");
+            DbgLog.msg (p_exeception.getLocalizedMessage ());
+
+            v_motor_right_drive = null;
+        }
         //
         // Connect the arm motor.
         //
@@ -367,6 +394,23 @@ public class PushBotHardware extends OpMode
     void set_drive_power (double p_left_power, double p_right_power)
 
     {
+        if (v_motor_left_drive != null) {
+            v_motor_left_drive.setPower(p_left_power);
+        }
+        if (v_motor_right_drive != null) {
+            v_motor_right_drive.setPower(p_right_power);
+        }
+        if (v_motor_left_drive_front != null) {
+            v_motor_left_drive_front.setPower(p_left_power);
+        }
+        if (v_motor_right_drive_front != null) {
+            v_motor_right_drive_front.setPower(p_right_power);
+        }
+    }
+
+    void set_drive_power_back (double p_left_power, double p_right_power)
+
+    {
         if (v_motor_left_drive != null)
         {
             v_motor_left_drive.setPower (p_left_power);
@@ -376,7 +420,29 @@ public class PushBotHardware extends OpMode
             v_motor_right_drive.setPower (p_right_power);
         }
 
-    } // set_drive_power
+
+    }
+    void set_drum_power (double power)
+
+    {
+        if (v_motor_drum != null)
+        {
+            v_motor_drum.setPower (power);
+        }
+
+
+    }
+    void set_arm_power (double power)
+
+    {
+        if (v_motor_arm != null)
+        {
+            v_motor_arm.setPower (power);
+        }
+
+
+    }
+     // set_drive_power
 
     //--------------------------------------------------------------------------
     //
@@ -999,6 +1065,39 @@ public class PushBotHardware extends OpMode
     private String v_warning_message;
 
     //--------------------------------------------------------------------------
+    //
+    // v_motor_left_drive_front
+    //
+    /**
+     * Manage the aspects of the left drive motor.
+     */
+    private DcMotor v_motor_left_drive_front;
+    //--------------------------------------------------------------------------
+    //
+    // v_motor_arm
+    //
+    /**
+     * Manage the aspects of the left drive motor.
+     */
+    private DcMotor v_motor_arm;
+
+    //--------------------------------------------------------------------------
+    //
+    // v_motor_drum
+    //
+    /**
+     * Manage the aspects of the left drive motor.
+     */
+    private DcMotor v_motor_drum;
+    //--------------------------------------------------------------------------
+    //
+    // v_motor_right_drive_front
+    //
+    /**
+     * Manage the aspects of the right drive motor.
+     */
+    private DcMotor v_motor_right_drive_front;
+//--------------------------------------------------------------------------
     //
     // v_motor_left_drive
     //
