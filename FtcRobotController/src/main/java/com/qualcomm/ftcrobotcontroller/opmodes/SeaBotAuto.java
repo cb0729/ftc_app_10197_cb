@@ -103,147 +103,18 @@ public class SeaBotAuto extends PushBotTelemetry
             //
             case 1:
                 //
-                // Tell the system that motor encoders will be used.  This call MUST
-                // be in this state and NOT the previous or the encoders will not
-                // work.  It doesn't need to be in subsequent states.
+                // Continue moving the arm up.  If the touch sensor is
+                // triggered, then the arm will stop and this call will perform
+                // no action.  If the touch sensor has not been triggered, then
+                // motor power will still be applied.
                 //
-                run_using_encoders ();
-
-                //
-                // Start the drive wheel motors at full power.
-                //
-                set_drive_power (1.0f, 1.0f);
-
-                //
-                // Have the motor shafts turned the required amount?
-                //
-                // If they haven't, then the op-mode remains in this state (i.e this
-                // block will be executed the next time this method is called).
-                //
-                if (have_drive_encoders_reached (2000, 2000))
+                if (move_forward_until_touch())
                 {
-                    //
-                    // Reset the encoders to ensure they are at a known good value.
-                    //
-                    reset_drive_encoders ();
 
-                    //
-                    // Stop the motors.
-                    //
-                    set_drive_power (0.0f, 0.0f);
-
-                    //
-                    // Transition to the next state when this method is called
-                    // again.
-                    //
-                    v_state++;
                 }
-                break;
-            //
-            // Wait...
-            //-
-            case 2:
-                if (have_drive_encoders_reset ())
-                {
-                    v_state++;
-                }
-                break;
-            //
-            // Turn left until the encoders exceed the specified values.
-            //
-            case 3:
-                run_using_encoders ();
-                set_drive_power (-1.0f, 1.0f);
-                if (have_drive_encoders_reached (2000, 2000))
-                {
-                    reset_drive_encoders ();
-                    set_drive_power (0.0f, 0.0f);
-                    v_state++;
-                }
-                break;
-            //
-            // Wait...
-            //
-            case 4:
-                if (have_drive_encoders_reset ())
-                {
-                    v_state++;
-                }
-                break;
-            //
-            // Turn right until the encoders exceed the specified values.
-            //
-            case 5:
-                run_using_encoders ();
-                set_drive_power (1.0f, -1.0f);
-                if (have_drive_encoders_reached (2000, 2000))
-                {
-                    reset_drive_encoders ();
-                    set_drive_power (0.0f, 0.0f);
-                    v_state++;
-                }
-                break;
-            //
-            // Wait...
-            //
-            case 6:
-                //
-                // Tell the system that motor encoders will be used.  This call MUST
-                // be in this state and NOT the previous or the encoders will not
-                // work.  It doesn't need to be in subsequent states.
-                //
-                run_using_encoders ();
-
-                //
-                // Start the drive wheel motors at full negative power.
-                //
-                set_drive_power (-1.0f, -1.0f);
-
-                //
-                // Have the motor shafts turned the required amount?
-                //
-                // If they haven't, then the op-mode remains in this state (i.e this
-                // block will be executed the next time this method is called).
-                //
-                if (have_drive_encoders_reached (2000, 2000))
-                {
-                    //
-                    // Reset the encoders to ensure they are at a known good value.
-                    //
-                    reset_drive_encoders ();
-
-                    //
-                    // Stop the motors.
-                    //
-                    set_drive_power (0.0f, 0.0f);
-
-                    //
-                    // Transition to the next state when this method is called
-                    // again.
-                    //
-                    v_state++;
-                }
-                break;
-            //
-            // Wait...
-            //
-            case 7:
-                if (have_drive_encoders_reset ())
-                {
-                    v_state++;
-                }
-                break;
-            //
-            // Perform no action - stay in this case until the OpMode is stopped.
-            // This method will still be called regardless of the state machine.
-            //
-            default:
-                //
-                // The autonomous actions have been accomplished (i.e. the state has
-                // transitioned into its final state.
-                //
                 break;
         }
+
 
         //
         // Send telemetry data to the driver station.

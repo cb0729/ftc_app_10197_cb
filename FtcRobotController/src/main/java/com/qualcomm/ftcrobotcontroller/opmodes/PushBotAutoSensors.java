@@ -259,6 +259,11 @@ public class PushBotAutoSensors extends PushBotTelemetrySensors
                 set_error_message ("IR beacon not detected!");
             }
             break;
+            case 7:
+                if (move_arm_upward_until_touch())
+                {
+                    v_arm_state++;
+                }
         //
         // Perform no action - stay in this case until the OpMode is stopped.
         // This method will still be called regardless of the state machine.
