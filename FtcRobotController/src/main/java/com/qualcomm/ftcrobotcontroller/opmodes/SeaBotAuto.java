@@ -86,7 +86,7 @@ public class SeaBotAuto extends PushBotTelemetrySensors1
             //
             // State 0.
             //
-            case 0:
+            case 1:
                 //
                 // Wait for the encoders to reset.  This might take multiple cycles.
                 //
@@ -95,7 +95,7 @@ public class SeaBotAuto extends PushBotTelemetrySensors1
                     //
                     // Begin the next state.  Drive forward.
                     //
-                    drive_using_encoders (-1.0f, 1.0f, -2880, 2880);
+                    drive_using_encoders (0.5f, 0.5f, 2880, 2880);
 
                     //
                     // Transition to the next state.
@@ -108,7 +108,7 @@ public class SeaBotAuto extends PushBotTelemetrySensors1
             // State 1.
             //
 
-            case 1:
+            case 2:
                 if(move_forward_until_touch())
                 {
                     v_state++;
