@@ -160,6 +160,28 @@ public class SeaBotHardwareSensors extends SeaBotTelemetry
     /**
      * Apply upward power to the arm motor until the touch sensor is pressed.
      */
+    boolean move_forward_until_touch ()
+
+    {
+        //
+        // If the touch sensor is pressed, halt the motors.
+        //
+        if (is_touch_sensor_pressed()) {
+            set_drive_power(0f, 0f);
+        }
+        //
+        // Move the arm upward at full power.
+        //
+        else {
+            set_drive_power(1.0f, 1.0f);
+        }
+
+        //
+        // Return whether the sensor has been pressed.
+        //
+        return is_touch_sensor_pressed();
+    }
+
     boolean move_arm_upward_until_touch ()
 
     {

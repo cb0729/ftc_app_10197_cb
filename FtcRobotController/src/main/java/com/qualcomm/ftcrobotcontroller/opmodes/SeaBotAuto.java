@@ -13,7 +13,7 @@ package com.qualcomm.ftcrobotcontroller.opmodes;
  * @author SSI Robotics
  * @version 2015-08-13-19-48
  */
-public class SeaBotAuto extends PushBotTelemetrySensors1
+public class SeaBotAuto extends SeaBotTelemetrySensors
 
 {
     //--------------------------------------------------------------------------

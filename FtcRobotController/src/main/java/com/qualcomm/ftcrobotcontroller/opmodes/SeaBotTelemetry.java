@@ -33,7 +33,7 @@ package com.qualcomm.ftcrobotcontroller.opmodes;
  *     10 - The value of gamepad 1's left trigger value.
  *     11 - The value of gamepad 1's right trigger value.
  */
-public class SeaBotTelemetry extends PushBotHardware
+public class SeaBotTelemetry extends SeaBotHardware
 
 {
     //--------------------------------------------------------------------------

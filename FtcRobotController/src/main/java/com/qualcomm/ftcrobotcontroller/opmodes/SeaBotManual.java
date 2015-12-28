@@ -26,7 +26,7 @@ public class SeaBotManual extends PushBotTelemetry
      */
     public SeaBotManual ()
 
-    {
+        {
         //
         // Initialize base classes.
         //
