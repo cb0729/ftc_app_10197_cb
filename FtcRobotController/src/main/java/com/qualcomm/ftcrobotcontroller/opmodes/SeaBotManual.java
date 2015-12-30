@@ -12,7 +12,7 @@ package com.qualcomm.ftcrobotcontroller.opmodes;
  * @author SSI Robotics
  * @version 2015-08-01-06-01
  */
-public class SeaBotManual extends PushBotTelemetry
+public class SeaBotManual extends SeaBotTelemetry
 
 {
     //--------------------------------------------------------------------------
@@ -77,7 +77,7 @@ public class SeaBotManual extends PushBotTelemetry
         float l_left_drive_power = scale_motor_power (gamepad1.left_stick_y);
         float l_right_drive_power = scale_motor_power (gamepad1.right_stick_y);
 
-        set_drive_power_back (l_left_drive_power, l_right_drive_power);
+        set_drive_power (l_left_drive_power, l_right_drive_power);
 
         //
         // Manage the arm motor.
@@ -124,19 +124,18 @@ public class SeaBotManual extends PushBotTelemetry
         // The setPosition methods write the motor power values to the Servo
         // class, but the positions aren't applied until this method ends.
         //
-        if (gamepad2.x)
-        {
-            m_hand_position (a_hand_position () + 0.05);
-        }
-        else if (gamepad2.b)
-        {
-            m_hand_position (a_hand_position () - 0.05);
-        }
+        //if (gamepad2.y)
+        //{
+        //    m_hand_position (a_arm_position () + 0.05);
+        //}
+        //else if (gamepad2.a)
+        //{
+        //    m_hand_position (a_hand_position () - 0.05);
+        //}//
 
-        if (gamepad2.y)
-        {
-
-        }
+        //if (gamepad2.y)
+        //{
+        //}
         //
         // Send telemetry data to the driver station.
         //
