@@ -2,6 +2,7 @@ package com.qualcomm.ftcrobotcontroller.opmodes;
 
 import com.qualcomm.ftccommon.DbgLog;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -95,6 +96,10 @@ public class SeaBotHardware extends OpMode
         try
         {
             v_motor_right_drive = hardwareMap.dcMotor.get ("right_drive");
+            //
+            // right side must reverse due to rotation of motors in robot, they are not facing same
+            //direction
+            //
             v_motor_right_drive.setDirection (DcMotor.Direction.REVERSE);
         }
         catch (Exception p_exeception)
@@ -107,8 +112,8 @@ public class SeaBotHardware extends OpMode
 
         try
         {
-            // v_motor_left_drive_front = hardwareMap.dcMotor.get ("left_drive_front");
-            v_motor_arm = hardwareMap.dcMotor.get ("left_drive_front");
+             v_motor_left_drive_front = hardwareMap.dcMotor.get ("left_drive_front");
+            //v_motor_arm = hardwareMap.dcMotor.get ("left_drive_front");
 
         }
         catch (Exception p_exeception)
@@ -121,9 +126,13 @@ public class SeaBotHardware extends OpMode
 
         try
         {
-            //v_motor_right_drive_front = hardwareMap.dcMotor.get ("right_drive_front");
-            //v_motor_right_drive_front.setDirection (DcMotor.Direction.REVERSE);
-            v_motor_drum = hardwareMap.dcMotor.get ("right_drive_front");
+            v_motor_right_drive_front = hardwareMap.dcMotor.get ("right_drive_front");
+            //
+            //right side must reverse due to rotation of motors in robot, they are not facing same
+            //direction
+            //
+            v_motor_right_drive_front.setDirection (DcMotor.Direction.REVERSE);
+            //v_motor_drum = hardwareMap.dcMotor.get ("right_drive_front");
         }
         catch (Exception p_exeception)
         {
@@ -147,6 +156,20 @@ public class SeaBotHardware extends OpMode
             v_motor_left_arm = null;
         }
 
+        //
+        //initializing touch sensor
+        //
+        try
+        {
+            v_sensor_touch = hardwareMap.touchSensor.get ("sensor_touch");
+        }
+        catch (Exception p_exeception)
+        {
+            m_warning_message ("sensor_touch");
+            DbgLog.msg (p_exeception.getLocalizedMessage ());
+
+            v_sensor_touch = null;
+        }
         //
         // Connect the servo motors.
         //
@@ -196,6 +219,27 @@ public class SeaBotHardware extends OpMode
         return v_warning_generated;
 
     } // a_warning_generated
+
+    //--------------------------------------------------------------------------
+    //
+    // is_touch_sensor_pressed
+    //
+    /**
+     * Indicate whether the touch sensor has been pressed.
+     */
+    boolean is_touch_sensor_pressed ()
+
+    {
+        boolean l_return = false;
+
+        if (v_sensor_touch != null)
+        {
+            l_return = v_sensor_touch.isPressed ();
+        }
+
+        return l_return;
+
+    } // is_touch_sensor_pressed
 
     //--------------------------------------------------------------------------
     //
@@ -384,7 +428,44 @@ public class SeaBotHardware extends OpMode
         return l_return;
 
     } // a_right_drive_power
+//--------------------------------------------------------------------------
+    //
+    // a_right_drive_front_power
+    //
+    /**
+     * Access the right drive motor's power level.
+     */
+    double a_right_drive_front_power ()
+    {
+        double l_return = 0.0;
 
+        if (v_motor_right_drive_front != null)
+        {
+            l_return = v_motor_right_drive_front.getPower ();
+        }
+
+        return l_return;
+
+    }
+    //--------------------------------------------------------------------------
+    //
+    // a_left_drive_front_power
+    //
+    /**
+     * Access the right drive motor's power level.
+     */
+    double a_left_drive_front_power ()
+    {
+        double l_return = 0.0;
+
+        if (v_motor_left_drive_front != null)
+        {
+            l_return = v_motor_left_drive_front.getPower ();
+        }
+
+        return l_return;
+
+    }
     //--------------------------------------------------------------------------
     //
     // set_drive_power
@@ -640,6 +721,31 @@ public class SeaBotHardware extends OpMode
         return l_return;
 
     } // a_left_encoder_count
+    //------------------------------------------------------------------------
+    boolean move_forward_until_touch ()
+
+    {
+        //
+        // If the touch sensor is pressed, halt the motors.
+        //
+        if (is_touch_sensor_pressed ())
+        {
+            set_drive_power(0.0f, 0.0f);
+        }
+        //
+        // Move the arm upward at full power.
+        //
+        else
+        {
+            set_drive_power(1.0f, 1.0f);
+        }
+
+        //
+        // Return whether the sensor has been pressed.
+        //
+        return is_touch_sensor_pressed ();
+
+    } // move_arm_upward_until_touch
 
     //--------------------------------------------------------------------------
     //
@@ -1142,5 +1248,12 @@ public class SeaBotHardware extends OpMode
      * Manage the aspects of the right hand servo.
      */
     private Servo v_servo_right_hand;
-
+//--------------------------------------------------------------------------
+    //
+    // v_sensor_touch
+    //
+    /**
+     * Manage the touch sensor.
+     */
+    private TouchSensor v_sensor_touch;
 } // PushBotHardware

@@ -3,8 +3,10 @@ package com.qualcomm.ftcrobotcontroller.opmodes;
 import com.qualcomm.ftccommon.DbgLog;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.Range;
 
 //------------------------------------------------------------------------------
@@ -179,6 +181,7 @@ public class PushBotHardware extends OpMode
 
             v_servo_right_hand = null;
         }
+
 
     } // init
 
@@ -737,6 +740,11 @@ public class PushBotHardware extends OpMode
 
     } // has_right_drive_encoder_reached
 
+
+
+
+
+
     //--------------------------------------------------------------------------
     //
     // have_drive_encoders_reached
@@ -1141,5 +1149,6 @@ public class PushBotHardware extends OpMode
      * Manage the aspects of the right hand servo.
      */
     private Servo v_servo_right_hand;
+
 
 } // PushBotHardware
