@@ -2,29 +2,30 @@ package com.qualcomm.ftcrobotcontroller.opmodes;
 
 //------------------------------------------------------------------------------
 //
-// PushBotAuto
+// PushBotAutoSensors
 //
 /**
  * Provide a basic autonomous operational mode that uses the left and right
- * drive motors and associated encoders implemented using a state machine for
- * the Push Bot.
+ * drive motors and associated encoders, the left arm motor and associated touch
+ * sensor, IR seeker V3 and optical distance sensor implemented using a state
+ * machine for the Push Bot.
  *
  * @author SSI Robotics
- * @version 2015-08-01-06-01
+ * @version 2015-08-13-19-48
  */
-public class SeaBotAuto extends PushBotTelemetry
+public class SeaBotAuto extends SeaBotTelemetry
 
 {
     //--------------------------------------------------------------------------
     //
-    // PushBotAuto
+    // PushBotAutoSensors
     //
     /**
      * Construct the class.
      *
      * The system calls this member when the class is instantiated.
      */
-    public SeaBotAuto ()
+    public SeaBotAuto()
 
     {
         //
@@ -37,7 +38,7 @@ public class SeaBotAuto extends PushBotTelemetry
         //
         // All via self-construction.
 
-    } // PushBotAuto
+    } // PushBotAutoSensors
 
     //--------------------------------------------------------------------------
     //
@@ -69,7 +70,7 @@ public class SeaBotAuto extends PushBotTelemetry
     //
     /**
      * Implement a state machine that controls the robot during auto-operation.
-     * The state machine uses a class member and encoder input to transition
+     * The state machine uses a class member and sensor input to transition
      * between states.
      *
      * The system calls this member repeatedly while the OpMode is running.
@@ -77,52 +78,64 @@ public class SeaBotAuto extends PushBotTelemetry
     @Override public void loop ()
 
     {
-        //----------------------------------------------------------------------
         //
-        // State: Initialize (i.e. state_0).
+        // Update the state machines
         //
         switch (v_state)
         {
             //
-            // Synchronize the state machine and hardware.
+            // State 0.
             //
             case 0:
                 //
-                // Reset the encoders to ensure they are at a known good value.
+                // Wait for the encoders to reset.  This might take multiple cycles.
                 //
-                reset_drive_encoders ();
+                if (have_drive_encoders_reset ())
+                {
+                    //
+                    // Begin the next state.  Drive forward.
+                    //
+                    drive_using_encoders (1f, 1f, 1500, 1500);
 
-                //
-                // Transition to the next state when this method is called again.
-                //
-                v_state++;
+                    //
+                    // Transition to the next state.
+                    //
+                    v_state++;
+                }
 
                 break;
             //
-            // Drive forward until the encoders exceed the specified values.
+            // State 1.
             //
-            case 1:
-                //
-                // Continue moving the arm up.  If the touch sensor is
-                // triggered, then the arm will stop and this call will perform
-                // no action.  If the touch sensor has not been triggered, then
-                // motor power will still be applied.
-                //
-                if (move_forward_until_touch())
-                {
 
+            case 1:
+                if(move_forward_until_touch())
+                {
+                    v_state++;
                 }
+
+                //
+                // Perform no action - stay in this case until the OpMode is stopped.
+                // This method will still be called regardless of the state machine.
+                //
+            default:
+                //
+                // The autonomous actions have been accomplished (i.e. the state has
+                // transitioned into its final state.
+                //
                 break;
         }
-
 
         //
         // Send telemetry data to the driver station.
         //
         update_telemetry (); // Update common telemetry
-        telemetry.addData ("18", "State: " + v_state);
+        telemetry.addData ("11", "Drive State Machine State: " + v_state);
+
 
     } // loop
+
+
 
     //--------------------------------------------------------------------------
     //
@@ -130,11 +143,12 @@ public class SeaBotAuto extends PushBotTelemetry
     //
     /**
      * This class member remembers which state is currently active.  When the
-     * start method is called, the state will be initialized (0).  When the loop
-     * starts, the state will change from initialize to state_1.  When state_1
-     * actions are complete, the state will change to state_2.  This implements
-     * a state machine for the loop method.
+     * start method is called, the state will be initialize (0).  During the
+     * first iteration of the loop method, the state will change from initialize
+     * to state_1.  When state_1 actions are complete, the state will change to
+     * state_2.  This implements a state machine for the loop method.
      */
     private int v_state = 0;
 
-} // PushBotAuto
+
+} // PushBotAutoSensors
