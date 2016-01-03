@@ -105,11 +105,11 @@ public class SeaBotTelemetry extends SeaBotHardware
                 );
         //telemetry.addData
         //    ( "03"
-        //    , "Left Arm: " + a_left_arm_power ()
+        //    , "Arm: " + a_arm_power ()
         //    );
         telemetry.addData
             ( "05"
-                    , "Climber Drop Position: " + a_hand_position ()
+                    , "Climber Drop Position: " + a_climber_position ()
             );
         telemetry.addData
                 ( "06"

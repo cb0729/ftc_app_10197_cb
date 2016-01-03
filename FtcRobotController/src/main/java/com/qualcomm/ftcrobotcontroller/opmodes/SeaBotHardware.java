@@ -141,19 +141,35 @@ public class SeaBotHardware extends OpMode
 
             v_motor_right_drive = null;
         }
+
         //
         // Connect the arm motor.
         //
         try
         {
-            v_motor_left_arm = hardwareMap.dcMotor.get ("left_arm");
+            v_motor_arm = hardwareMap.dcMotor.get ("motor_arm");
         }
         catch (Exception p_exeception)
         {
-            m_warning_message ("left_arm");
+            m_warning_message ("motor_arm");
             DbgLog.msg (p_exeception.getLocalizedMessage ());
 
-            v_motor_left_arm = null;
+            v_motor_arm = null;
+        }
+
+        //
+        // Connect the drum motor.
+        //
+        try
+        {
+            v_motor_drum = hardwareMap.dcMotor.get ("motor_drum");
+        }
+        catch (Exception p_exeception)
+        {
+            m_warning_message ("motor_drum");
+            DbgLog.msg (p_exeception.getLocalizedMessage ());
+
+            v_motor_drum = null;
         }
 
         //
@@ -176,32 +192,37 @@ public class SeaBotHardware extends OpMode
         // Indicate the initial position of both the left and right servos.  The
         // hand should be halfway opened/closed.
         //
-        double l_hand_position = 0.5;
+        double l_climber_position = 0.0;
 
         try
         {
-            v_servo_left_hand = hardwareMap.servo.get ("left_hand");
-            v_servo_left_hand.setPosition (l_hand_position);
+            v_servo_climber = hardwareMap.servo.get ("servo_climber");
+            v_servo_climber.setPosition(l_climber_position);
         }
         catch (Exception p_exeception)
         {
-            m_warning_message ("left_hand");
+            m_warning_message ("servo_climber");
             DbgLog.msg (p_exeception.getLocalizedMessage ());
 
-            v_servo_left_hand = null;
+            v_servo_climber = null;
         }
+
+        //
+        // setup hardware for front hook servo
+        //
+        double l_front_hook_position = 0.0;
 
         try
         {
-            v_servo_right_hand = hardwareMap.servo.get ("right_hand");
-            v_servo_right_hand.setPosition (l_hand_position);
+            v_servo_front_hook = hardwareMap.servo.get ("servo_front_hook");
+            v_servo_front_hook.setPosition (l_front_hook_position);
         }
         catch (Exception p_exeception)
         {
-            m_warning_message ("right_hand");
+            m_warning_message ("servo_front_hook");
             DbgLog.msg (p_exeception.getLocalizedMessage ());
 
-            v_servo_right_hand = null;
+            v_servo_front_hook = null;
         }
 
     } // init
@@ -1041,18 +1062,18 @@ public class SeaBotHardware extends OpMode
 
     //--------------------------------------------------------------------------
     //
-    // a_left_arm_power
+    // a_arm_power
     //
     /**
-     * Access the left arm motor's power level.
+     * Access the arm motor's power level.
      */
-    double a_left_arm_power ()
+    double a_arm_power ()
     {
         double l_return = 0.0;
 
-        if (v_motor_left_arm != null)
+        if (v_motor_arm != null)
         {
-            l_return = v_motor_left_arm.getPower ();
+            l_return = v_motor_arm.getPower ();
         }
 
         return l_return;
@@ -1080,15 +1101,15 @@ public class SeaBotHardware extends OpMode
     // a_hand_position
     //
     /**
-     * Access the hand position.
+     * Access the climber position.
      */
-    double a_hand_position ()
+    double a_climber_position ()
     {
         double l_return = 0.0;
 
-        if (v_servo_left_hand != null)
+        if (v_servo_climber != null)
         {
-            l_return = v_servo_left_hand.getPosition ();
+            l_return = v_servo_climber.getPosition ();
         }
 
         return l_return;
@@ -1102,7 +1123,7 @@ public class SeaBotHardware extends OpMode
     /**
      * Mutate the hand position.
      */
-    void m_hand_position (double p_position)
+    void m_climber_position (double p_position)
     {
         //
         // Ensure the specific value is legal.
@@ -1117,13 +1138,13 @@ public class SeaBotHardware extends OpMode
         // Set the value.  The right hand value must be opposite of the left
         // value.
         //
-        if (v_servo_left_hand != null)
+        if (v_servo_climber != null)
         {
-            v_servo_left_hand.setPosition (l_position);
+            v_servo_climber.setPosition (l_position);
         }
-        if (v_servo_right_hand != null)
+        if (v_servo_front_hook != null)
         {
-            v_servo_right_hand.setPosition (1.0 - l_position);
+            v_servo_front_hook.setPosition(1.0 - l_position);
         }
 
     } // m_hand_position
@@ -1142,14 +1163,14 @@ public class SeaBotHardware extends OpMode
         // Set the value.  The right hand value must be opposite of the left
         // value.
         //
-        if (v_servo_left_hand != null)
-        {
-            v_servo_left_hand.setPosition (Servo.MAX_POSITION);
-        }
-        if (v_servo_right_hand != null)
-        {
-            v_servo_right_hand.setPosition (Servo.MIN_POSITION);
-        }
+        //if (v_servo_left_hand != null)
+        //{
+        //    v_servo_left_hand.setPosition (Servo.MAX_POSITION);
+        //}
+        //if (v_servo_right_hand != null)
+        //{
+        //    v_servo_right_hand.setPosition (Servo.MIN_POSITION);
+        //}
 
     } // open_hand
 
@@ -1233,21 +1254,21 @@ public class SeaBotHardware extends OpMode
 
     //--------------------------------------------------------------------------
     //
-    // v_servo_left_hand
+    // v_servo_climber
     //
     /**
-     * Manage the aspects of the left hand servo.
+     * Manage the aspects of the climber servo.
      */
-    private Servo v_servo_left_hand;
+    private Servo v_servo_climber;
 
     //--------------------------------------------------------------------------
     //
     // v_servo_right_hand
     //
     /**
-     * Manage the aspects of the right hand servo.
+     * Manage the aspects of the front hook servo.
      */
-    private Servo v_servo_right_hand;
+    private Servo v_servo_front_hook;
 //--------------------------------------------------------------------------
     //
     // v_sensor_touch

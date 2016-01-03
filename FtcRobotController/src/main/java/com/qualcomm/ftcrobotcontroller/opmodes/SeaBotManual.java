@@ -77,7 +77,7 @@ public class SeaBotManual extends SeaBotTelemetry
         float l_left_drive_power = scale_motor_power (gamepad1.left_stick_y);
         float l_right_drive_power = scale_motor_power (gamepad1.right_stick_y);
 
-        set_drive_power_back (l_left_drive_power, l_right_drive_power);
+        set_drive_power (l_left_drive_power, l_right_drive_power);
 
         //
         // Manage the arm motor.
@@ -124,19 +124,18 @@ public class SeaBotManual extends SeaBotTelemetry
         // The setPosition methods write the motor power values to the Servo
         // class, but the positions aren't applied until this method ends.
         //
-        if (gamepad2.x)
-        {
-            m_hand_position (a_hand_position () + 0.05);
-        }
-        else if (gamepad2.b)
-        {
-            m_hand_position (a_hand_position () - 0.05);
-        }
+        //if (gamepad2.y)
+        //{
+        //    m_hand_position (a_arm_position () + 0.05);
+        //}
+        //else if (gamepad2.a)
+        //{
+        //    m_hand_position (a_hand_position () - 0.05);
+        //}//
 
-        if (gamepad2.y)
-        {
-
-        }
+        //if (gamepad2.y)
+        //{
+        //}
         //
         // Send telemetry data to the driver station.
         //
