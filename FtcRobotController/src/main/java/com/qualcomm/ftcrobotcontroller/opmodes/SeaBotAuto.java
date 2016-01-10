@@ -99,18 +99,17 @@ public class SeaBotAuto extends SeaBotTelemetry
                 run_using_encoders();
 
                 // Start the drive wheel motors at full power.
-                set_drive_power(1.0f, 1.0f);
-
+                set_drive_power(.25f, .25f);
                 // Have the motor shafts turned the required amount?
                 //
                 // If they haven't, then the op-mode remains in this state (i.e this
                 // block will be executed the next time this method is called).
-                if (have_drive_encoders_reached(2880, 2880)) {
+                if (have_drive_encoders_reached(3101, 3101)) {
                     // Reset the encoders to ensure they are at a known good value.
                     reset_drive_encoders();
 
                     // Stop the motors.
-                    set_drive_power(0.0f, 0.0f);
+                    //set_drive_power(0.0f, 0.0f);
 
                     // Transition to the next state when this method is called
                     // again.
@@ -128,10 +127,10 @@ public class SeaBotAuto extends SeaBotTelemetry
             // Turn left until the encoders exceed the specified values.
             case 3:
                 run_using_encoders();
-                set_drive_power(-1.0f, 1.0f);
-                if (have_drive_encoders_reached(2880, 2880)) {
+                set_drive_power(.50f, .50f);
+                if (have_drive_encoders_reached(3101, 3101)) {
                     reset_drive_encoders();
-                    set_drive_power(0.0f, 0.0f);
+                    //set_drive_power(0.0f, 0.0f);
                     v_state++;
                 }
                 break;
@@ -146,8 +145,8 @@ public class SeaBotAuto extends SeaBotTelemetry
             // Turn right until the encoders exceed the specified values.
             case 5:
                 run_using_encoders();
-                set_drive_power(1.0f, -1.0f);
-                if (have_drive_encoders_reached(2880, 2880)) {
+                set_drive_power(.75f, .75f);
+                if (have_drive_encoders_reached(3103, 3103)) {
                     reset_drive_encoders();
                     set_drive_power(0.0f, 0.0f);
                     v_state++;

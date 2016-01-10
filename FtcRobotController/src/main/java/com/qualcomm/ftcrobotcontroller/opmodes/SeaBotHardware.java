@@ -498,16 +498,16 @@ public class SeaBotHardware extends OpMode
 
     {
         if (v_motor_left_drive != null) {
-            v_motor_left_drive.setPower(p_left_power);
+            v_motor_left_drive.setPower(-p_left_power);
         }
         if (v_motor_right_drive != null) {
-            v_motor_right_drive.setPower(p_right_power);
+            v_motor_right_drive.setPower(-p_right_power);
         }
         if (v_motor_left_drive_front != null) {
-            v_motor_left_drive_front.setPower(p_left_power);
+            v_motor_left_drive_front.setPower(-p_left_power);
         }
         if (v_motor_right_drive_front != null) {
-            v_motor_right_drive_front.setPower(p_right_power);
+            v_motor_right_drive_front.setPower(-p_right_power);
         }
     }
 
