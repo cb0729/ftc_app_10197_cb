@@ -91,6 +91,50 @@ public class SeaBotManual extends SeaBotTelemetry
         set_arm_power(arm_power);
         set_drum_power(drum_power);
 
+        if(gamepad2.x)
+        {
+            m_climber_position(a_climber_position() + 0.05);
+            //move climber servo
+        }
+        else
+        {
+            m_climber_position(a_climber_position());
+            //don't move climber servo
+        }
+
+        if(gamepad2.b)
+        {
+            m_climber_position(a_climber_position() - 0.05);
+            //move climber servo
+        }
+        else
+        {
+            m_climber_position(a_climber_position());
+            //don't move climber servo
+        }
+
+        if(gamepad2.y)
+        {
+            m_linear_actuator_position(a_linear_actuator_position() + 0.05);
+            //move arm servo
+        }
+        else
+        {
+            m_linear_actuator_position(a_linear_actuator_position() - 0);
+            //don't move arm servo
+        }
+
+        if(gamepad2.a)
+        {
+            m_linear_actuator_position(a_linear_actuator_position() - 0.05);
+            //move arm servo
+        }
+        else
+        {
+            m_linear_actuator_position(a_linear_actuator_position() - 0);
+            //don't move arm servo
+        }
+
         //float y = 0;
 
         //if (gamepad2.b)
