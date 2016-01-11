@@ -1275,9 +1275,9 @@ public class SeaBotHardware extends OpMode
         // Set the value.  The right hand value must be opposite of the left
         // value.
         //
-        if (v_servo_climber != null)
+        if (v_servo_linear_actuator != null)
         {
-            v_servo_climber.setPosition (l_position);
+            v_servo_linear_actuator.setPosition (l_position);
         }
 
 
