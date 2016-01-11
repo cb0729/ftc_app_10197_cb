@@ -99,7 +99,7 @@ public class SeaBotAuto extends SeaBotTelemetry
                 run_using_encoders();
 
                 // Start the drive wheel motors at full power.
-                set_drive_power(.25f, .25f);
+                set_drive_power(.50f, .60f);
                 // Have the motor shafts turned the required amount?
                 //
                 // If they haven't, then the op-mode remains in this state (i.e this
@@ -127,8 +127,8 @@ public class SeaBotAuto extends SeaBotTelemetry
             // Turn left until the encoders exceed the specified values.
             case 3:
                 run_using_encoders();
-                set_drive_power(.50f, .50f);
-                if (have_drive_encoders_reached(3101, 3101)) {
+                set_drive_power(.50f, .60f);
+                if (have_drive_encoders_reached(2381, 2381)) {
                     reset_drive_encoders();
                     //set_drive_power(0.0f, 0.0f);
                     v_state++;
@@ -145,8 +145,8 @@ public class SeaBotAuto extends SeaBotTelemetry
             // Turn right until the encoders exceed the specified values.
             case 5:
                 run_using_encoders();
-                set_drive_power(.75f, .75f);
-                if (have_drive_encoders_reached(3103, 3103)) {
+                set_drive_power(.50, .60f);
+                if (have_drive_encoders_reached(1663, 1663)) {
                     reset_drive_encoders();
                     set_drive_power(0.0f, 0.0f);
                     v_state++;
@@ -162,11 +162,34 @@ public class SeaBotAuto extends SeaBotTelemetry
 
             // Perform no action - stay in this case until the OpMode is stopped.
             // This method will still be called regardless of the state machine.
+
+                // The autonomous actions have been accomplished (i.e. the state has
+                // transitioned into its final state.
+
+
+            case 7:
+                m_climber_position(a_climber_position() + .25);
+                break;
+
+            // Perform no action - stay in this case until the OpMode is stopped.
+            // This method will still be called regardless of the state machine.
+
+                // The autonomous actions have been accomplished (i.e. the state has
+                // transitioned into its final state.
+
+
+            case 8:
+                m_climber_position(a_climber_position() - .25);
+                break;
+
+            // Perform no action - stay in this case until the OpMode is stopped.
+            // This method will still be called regardless of the state machine.
             default:
                 // The autonomous actions have been accomplished (i.e. the state has
                 // transitioned into its final state.
                 break;
         }
+
 
         //
         // Send telemetry data to the driver station.

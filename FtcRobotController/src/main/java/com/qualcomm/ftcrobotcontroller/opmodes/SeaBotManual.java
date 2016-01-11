@@ -85,7 +85,7 @@ public class SeaBotManual extends SeaBotTelemetry
         float l_left_arm_power = scale_motor_power (-gamepad2.left_stick_y);
         m_left_arm_power(l_left_arm_power);
 
-        float arm_power = scale_motor_power(-gamepad2.left_stick_y);
+        float arm_power = scale_arm_power(-gamepad2.left_stick_y);
         float drum_power = scale_motor_power(-gamepad2.right_stick_y);
 
         set_arm_power(arm_power);

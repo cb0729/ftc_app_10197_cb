@@ -428,6 +428,63 @@ public class SeaBotHardware extends OpMode
 
     //--------------------------------------------------------------------------
     //
+    // scale_motor_power
+    //
+    /**
+     * Scale the joystick input using a nonlinear algorithm.
+     */
+    float scale_arm_power (float p_power)
+    {
+        //
+        // Assume no scaling.
+        //
+        float l_scale = 0.0f;
+
+        //
+        // Ensure the values are legal.
+        //
+        float l_power = Range.clip (p_power, -1, 1);
+
+        float[] l_array =
+                { 0.00f, 0.05f, 0.09f, 0.10f, 0.12f
+                        , 0.15f, 0.18f, 0.24f, 0.30f, 0.36f
+                        , 0.43f, 0.50f, 0.60f, 0.72f, 0.85f
+                        , 1.00f, 1.00f
+                };
+
+        //
+        // Get the corresponding index for the specified argument/parameter.
+        //
+        int l_index = (int)(l_power * 16.0);
+        if (l_index < 0)
+        {
+            l_index = -l_index;
+        }
+        else if (l_index > 16)
+        {
+            l_index = 16;
+        }
+
+
+        if (l_power < 0)
+        {
+            l_scale = -l_array[l_index];
+        }
+        else
+        {
+            l_scale = l_array[l_index];
+        }
+
+        if (l_scale > 0.5)
+        {
+            l_scale = 0.5f;
+        }
+        return l_scale;
+
+    }
+
+    //--------------------------------------------------------------------------
+    //
     // a_left_drive_power
     //
     /**
@@ -514,16 +571,16 @@ public class SeaBotHardware extends OpMode
 
     {
         if (v_motor_left_drive != null) {
-            v_motor_left_drive.setPower(-p_left_power);
+            v_motor_left_drive.setPower(p_left_power);
         }
         if (v_motor_right_drive != null) {
-            v_motor_right_drive.setPower(-p_right_power);
+            v_motor_right_drive.setPower(p_right_power);
         }
         if (v_motor_left_drive_front != null) {
-            v_motor_left_drive_front.setPower(-p_left_power);
+            v_motor_left_drive_front.setPower(p_left_power);
         }
         if (v_motor_right_drive_front != null) {
-            v_motor_right_drive_front.setPower(-p_right_power);
+            v_motor_right_drive_front.setPower(p_right_power);
         }
     }
 
